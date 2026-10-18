@@ -107,6 +107,10 @@ export function JobDrawer({
     };
   }, [jobId]);
   const outputs = Object.entries(job?.outputs ?? {});
+  const poster = outputs.find(
+    ([name, output]) =>
+      output.contentType?.startsWith("image/") || /thumbnail/i.test(name),
+  )?.[1].url;
   return (
     <Dialog label="Job details" onClose={onClose} className="job-drawer">
       <div className="drawer-header">
@@ -227,6 +231,7 @@ export function JobDrawer({
                         />
                       ) : (
                         <video
+                          poster={poster}
                           src={output.url}
                           controls
                           playsInline

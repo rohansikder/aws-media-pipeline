@@ -1,0 +1,366 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-10-18T23:36:26.972+00:00",
+  "status": "passed",
+  "gitRevision": "c637e9b6ba80fca234f7138f29c9e17c4b268cb2",
+  "environment": {
+    "name": "local-floci",
+    "pythonVersion": "3.12.14",
+    "ffprobeAvailable": true,
+    "globalDeadlineSeconds": 480,
+    "perCaseDeadlineSeconds": 180,
+    "endpoint": "http://localhost:4566",
+    "region": "eu-west-1",
+    "inputBucket": "media-local-input",
+    "outputBucket": "media-local-output",
+    "jobsTable": "media-local-jobs",
+    "stateMachineArn": "arn:aws:states:eu-west-1:000000000000:stateMachine:media-local-pipeline"
+  },
+  "methodology": {
+    "path": "API reservation \u2192 real S3 PUT \u2192 S3 notification \u2192 SQS \u2192 Lambda \u2192 Step Functions \u2192 ECS/FFmpeg \u2192 S3/DynamoDB",
+    "apiTransport": "FastAPI TestClient; AWS SDK and signed S3 HTTP requests use the running emulator",
+    "timestampUnit": "UTC ISO 8601",
+    "durationUnit": "seconds",
+    "scope": "Functional local integration evidence; not AWS latency, throughput, availability, or IAM validation"
+  },
+  "cases": [
+    {
+      "name": "duplicate",
+      "status": "passed",
+      "startedAt": "2026-10-18T23:36:34.311+00:00",
+      "jobIds": [
+        "8f9e5f9e807a4fbb8e692f7eab3699bd"
+      ],
+      "submittedNotifications": 3,
+      "jobs": [
+        {
+          "jobId": "8f9e5f9e807a4fbb8e692f7eab3699bd",
+          "status": "SUCCEEDED",
+          "createdAt": "2026-10-18T23:36:34.314+00:00",
+          "completedAt": "2026-10-18T23:37:11.682+00:00",
+          "durationSeconds": 23.728,
+          "attempts": 3,
+          "attemptCounts": {
+            "360p": 1,
+            "720p": 1,
+            "thumbnail": 1
+          },
+          "history": {
+            "executionArn": "arn:aws:states:eu-west-1:000000000000:execution:media-local-pipeline:job-8f9e5f9e807a4fbb8e692f7eab3699bd",
+            "executionStatus": "SUCCEEDED",
+            "executionCount": 1,
+            "jobEventCount": 9,
+            "executionEventCount": 42,
+            "executionEventTypes": [
+              "ExecutionStarted",
+              "ExecutionSucceeded",
+              "LambdaFunctionScheduled",
+              "LambdaFunctionStarted",
+              "LambdaFunctionSucceeded",
+              "MapIterationStarted",
+              "MapIterationSucceeded",
+              "MapStateEntered",
+              "MapStateExited",
+              "MapStateStarted",
+              "MapStateSucceeded",
+              "PassStateEntered",
+              "PassStateExited",
+              "TaskScheduled",
+              "TaskStarted",
+              "TaskStateEntered",
+              "TaskStateExited",
+              "TaskSubmitted",
+              "TaskSucceeded"
+            ]
+          },
+          "outputs": {
+            "360p": {
+              "key": "jobs/8f9e5f9e807a4fbb8e692f7eab3699bd/360p/attempt-1.mp4",
+              "sizeBytes": 91199,
+              "contentType": "video/mp4",
+              "sha256": "51716a2720fea4db0610005bb49a559a3384f694f8285b1a4ae985e776da4ec3",
+              "signatureVerified": true,
+              "ffprobe": {
+                "status": "passed",
+                "codec_name": "h264",
+                "width": 640,
+                "height": 360,
+                "durationSeconds": 2.02
+              }
+            },
+            "720p": {
+              "key": "jobs/8f9e5f9e807a4fbb8e692f7eab3699bd/720p/attempt-1.mp4",
+              "sizeBytes": 405349,
+              "contentType": "video/mp4",
+              "sha256": "45ce02c396f1bfa755f838b1617008376bf836469adabf3e6dcc2d89a926cc3c",
+              "signatureVerified": true,
+              "ffprobe": {
+                "status": "passed",
+                "codec_name": "h264",
+                "width": 1280,
+                "height": 720,
+                "durationSeconds": 2.02
+              }
+            },
+            "thumbnail": {
+              "key": "jobs/8f9e5f9e807a4fbb8e692f7eab3699bd/thumbnail/attempt-1.jpg",
+              "sizeBytes": 18658,
+              "contentType": "image/jpeg",
+              "sha256": "b910de39387e4f43a5b8009f60d15e238f8dd52644906d459f9cc3649eb7be21",
+              "signatureVerified": true,
+              "ffprobe": {
+                "status": "passed",
+                "codec_name": "mjpeg",
+                "width": 640,
+                "height": 360
+              }
+            }
+          }
+        }
+      ],
+      "ingestDrained": true,
+      "finishedAt": "2026-10-18T23:37:12.776+00:00",
+      "elapsedSeconds": 38.465
+    }
+  ],
+  "requestedCases": [
+    "duplicate"
+  ],
+  "apiGatewaySmoke": {
+    "localUrl": "http://localhost:4566/api/health",
+    "hostHeader": "7ff835ef57.execute-api.eu-west-1.amazonaws.com",
+    "transport": "Local HTTP API Gateway \u2192 real API Lambda \u2192 FastAPI",
+    "status": 200,
+    "health": {
+      "status": "ok",
+      "environment": "local",
+      "region": "eu-west-1",
+      "scenariosEnabled": true
+    }
+  },
+  "initialMetrics": {
+    "totalJobs": 12,
+    "succeeded": 11,
+    "failed": 1,
+    "active": 0,
+    "successRate": 91.7,
+    "throughputPerMinute": 0,
+    "p50Seconds": 23.77,
+    "p95Seconds": 53.91,
+    "queueDepth": 0,
+    "deadLetterDepth": 1,
+    "processingFailureDepth": 1,
+    "retryCount": 5,
+    "series": [
+      {
+        "timestamp": "2026-10-18T23:25:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:26:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:27:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:28:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:29:00+00:00",
+        "completed": 1,
+        "failed": 0,
+        "avgDurationSeconds": 22.06
+      },
+      {
+        "timestamp": "2026-10-18T23:30:00+00:00",
+        "completed": 2,
+        "failed": 0,
+        "avgDurationSeconds": 21.54
+      },
+      {
+        "timestamp": "2026-10-18T23:31:00+00:00",
+        "completed": 2,
+        "failed": 1,
+        "avgDurationSeconds": 21.65
+      },
+      {
+        "timestamp": "2026-10-18T23:32:00+00:00",
+        "completed": 6,
+        "failed": 0,
+        "avgDurationSeconds": 47.13
+      },
+      {
+        "timestamp": "2026-10-18T23:33:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:34:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:35:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:36:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      }
+    ],
+    "renditions": [
+      {
+        "name": "360p",
+        "count": 11
+      },
+      {
+        "name": "720p",
+        "count": 11
+      },
+      {
+        "name": "thumbnail",
+        "count": 11
+      }
+    ],
+    "sampleSize": 11,
+    "historyLimit": 1000
+  },
+  "fixture": {
+    "path": "services/pipeline/assets/sample.mp4",
+    "sizeBytes": 368672,
+    "sha256": "19e8e6f4d0861c2407e1aecbbaf43d7e80732fa35a411b91ec196de91a0cd874"
+  },
+  "finalMetrics": {
+    "totalJobs": 13,
+    "succeeded": 12,
+    "failed": 1,
+    "active": 0,
+    "successRate": 92.3,
+    "throughputPerMinute": 1,
+    "p50Seconds": 23.75,
+    "p95Seconds": 53.89,
+    "queueDepth": 0,
+    "deadLetterDepth": 1,
+    "processingFailureDepth": 1,
+    "retryCount": 5,
+    "series": [
+      {
+        "timestamp": "2026-10-18T23:26:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:27:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:28:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:29:00+00:00",
+        "completed": 1,
+        "failed": 0,
+        "avgDurationSeconds": 22.06
+      },
+      {
+        "timestamp": "2026-10-18T23:30:00+00:00",
+        "completed": 2,
+        "failed": 0,
+        "avgDurationSeconds": 21.54
+      },
+      {
+        "timestamp": "2026-10-18T23:31:00+00:00",
+        "completed": 2,
+        "failed": 1,
+        "avgDurationSeconds": 21.65
+      },
+      {
+        "timestamp": "2026-10-18T23:32:00+00:00",
+        "completed": 6,
+        "failed": 0,
+        "avgDurationSeconds": 47.13
+      },
+      {
+        "timestamp": "2026-10-18T23:33:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:34:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:35:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:36:00+00:00",
+        "completed": 0,
+        "failed": 0,
+        "avgDurationSeconds": 0.0
+      },
+      {
+        "timestamp": "2026-10-18T23:37:00+00:00",
+        "completed": 1,
+        "failed": 0,
+        "avgDurationSeconds": 23.73
+      }
+    ],
+    "renditions": [
+      {
+        "name": "360p",
+        "count": 12
+      },
+      {
+        "name": "720p",
+        "count": 12
+      },
+      {
+        "name": "thumbnail",
+        "count": 12
+      }
+    ],
+    "sampleSize": 12,
+    "historyLimit": 1000
+  },
+  "finishedAt": "2026-10-18T23:37:12.797+00:00",
+  "elapsedSeconds": 45.825,
+  "summary": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "verifiedJobs": 1,
+    "succeededJobs": 1,
+    "failedJobs": 0,
+    "verifiedOutputObjects": 3,
+    "observedRenditionAttempts": 3
+  }
+}

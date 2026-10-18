@@ -19,11 +19,13 @@ Case time includes polling and output verification. The dispatch case includes q
 
 ## Provenance
 
-[integration-results.json](integration-results.json) contains timestamps, fixture SHA-256, checked object hashes, attempt counts, execution history summaries, queue policy, and observations. The full local run records application revision `ec9e9d916fe9f0aebf7049857c09e6ab774f59d5`. A later dispatcher recovery fix has additional unit coverage; the GitHub Actions integration job builds and tests the repository revision associated with each run.
+[integration-results.json](integration-results.json) contains timestamps, fixture SHA-256, checked object hashes, attempt counts, execution history summaries, queue policy, and observations. The full local run records application revision `ec9e9d916fe9f0aebf7049857c09e6ab774f59d5`. Later dispatcher recovery and web dependency updates have additional checks; the GitHub Actions integration job builds and tests the repository revision associated with each run.
 
 [browser-verification.json](browser-verification.json) records the separate real browser upload, output playback, stable playback across polling, download, timeline, and desktop/mobile checks. These browser jobs and an earlier diagnostic upload remain visible in the dashboard, so screenshot totals exceed the nine jobs belonging to the recorded integration run.
 
 [api-gateway-smoke.json](api-gateway-smoke.json) records a separate check through Floci's HTTP API Gateway and actual API Lambda. The hostname is supplied as a local routing header; no live AWS API Gateway deployment was used.
+
+[restart-verification.json](restart-verification.json) records a separate graceful Floci restart with WAL storage: 12 job records, 33 output references, nine terminal execution states, and all 24 integration output hashes were retained. [post-restart-duplicate-check.json](post-restart-duplicate-check.json) confirms that a fresh job completed after restart and repeated events still produced one execution. This does not test resuming an in-flight execution.
 
 The isolated Python suite currently contains **58 passing tests**. The React/TypeScript build, Terraform validation for both environments, Python lint, and workflow syntax checks also pass locally. GitHub Actions reruns these checks and the full event-path integration independently.
 

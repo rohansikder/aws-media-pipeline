@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-18T23:36:14.481482+00:00",
+  "environment": "Floci 2.3.0, WAL storage",
+  "status": "passed",
+  "jobRecordsRetained": 12,
+  "outputReferencesRetained": 33,
+  "outputSHA256ChecksPassed": 24,
+  "terminalExecutionStatesRetained": 9,
+  "inFlightExecutionResumeTested": false
+}

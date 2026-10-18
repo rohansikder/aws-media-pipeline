@@ -26,22 +26,41 @@ def dispatch_s3(record):
     if not job or job["objectKey"] != key:
         raise ValueError("Upload has no matching job reservation")
     payload = {"jobId": job_id, "objectKey": key, "bucket": bucket}
+    state_machine_arn = os.environ["STATE_MACHINE_ARN"]
+    execution_name = f"job-{job_id}"
     try:
         result = aws("stepfunctions").start_execution(
-            stateMachineArn=os.environ["STATE_MACHINE_ARN"],
-            name=f"job-{job_id}",
+            stateMachineArn=state_machine_arn,
+            name=execution_name,
             input=json.dumps(payload, sort_keys=True, separators=(",", ":")),
         )
     except ClientError as exc:
         if exc.response["Error"]["Code"] != "ExecutionAlreadyExists":
             raise
+        # A prior dispatch may have started the execution but failed to publish
+        # its ARN before this SQS delivery. Recover it even after execution ends.
+        prefix, state_machine_name = state_machine_arn.split(":stateMachine:", 1)
+        execution_arn = (
+            f"{prefix}:execution:{state_machine_name.split(':', 1)[0]}:{execution_name}"
+        )
+    else:
+        execution_arn = result["executionArn"]
+    try:
+        # Only the first metadata publication counts as a new dispatch. The
+        # workflow owns status; duplicate dispatches must never move it backward.
+        storage.update_job(
+            job_id,
+            {"executionArn": execution_arn},
+            condition="attribute_exists(jobId) AND attribute_not_exists(executionArn)",
+        )
+    except ClientError as exc:
+        if exc.response["Error"]["Code"] != "ConditionalCheckFailedException":
+            raise
         log("duplicate_dispatch", jobId=job_id)
         metric("DuplicateEvents")
         return
-    # Preserve RUNNING/SUCCEEDED if the workflow raced this metadata update.
-    storage.update_job(job_id, {"executionArn": result["executionArn"]})
     metric("JobsDispatched")
-    log("job_dispatched", jobId=job_id, executionArn=result["executionArn"])
+    log("job_dispatched", jobId=job_id, executionArn=execution_arn)
 
 
 def handler(event, context):

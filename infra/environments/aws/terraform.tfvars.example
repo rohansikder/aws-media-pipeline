@@ -1,0 +1,5 @@
+region            = "eu-west-1"
+availability_zone = "eu-west-1a"
+name_prefix       = "media-yourname-unique"
+worker_image      = "123456789012.dkr.ecr.eu-west-1.amazonaws.com/media-yourname-unique-worker:v1"
+allowed_origins   = ["http://localhost:8000"]

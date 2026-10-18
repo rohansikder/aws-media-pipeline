@@ -1,0 +1,31 @@
+name: media-pipeline
+services:
+  floci:
+    image: floci/floci:2.3.0
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      FLOCI_HOSTNAME: floci
+      FLOCI_STORAGE_MODE: wal
+      FLOCI_STORAGE_PERSISTENT_PATH: /app/data
+      FLOCI_SERVICES_DOCKER_NETWORK: media-pipeline
+      FLOCI_SERVICES_LAMBDA_DOCKER_NETWORK: media-pipeline
+      FLOCI_SERVICES_LAMBDA_DOCKER_HOST_OVERRIDE: floci
+      FLOCI_SERVICES_LAMBDA_WARM_POOL_MAX_TOTAL: "4"
+      FLOCI_SERVICES_ECS_DOCKER_NETWORK: media-pipeline
+      FLOCI_SERVICES_ECS_MOCK: "false"
+      FLOCI_SERVICES_IAM_ENFORCEMENT_ENABLED: "false"
+      FLOCI_SERVICES_STEPFUNCTIONS_MAX_WAIT_SECONDS: "120"
+      AWS_DEFAULT_REGION: eu-west-1
+      AWS_ACCESS_KEY_ID: "000000000000"
+      AWS_SECRET_ACCESS_KEY: test
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - floci-data:/app/data
+    networks:
+      - pipeline
+networks:
+  pipeline:
+    name: media-pipeline
+volumes:
+  floci-data:

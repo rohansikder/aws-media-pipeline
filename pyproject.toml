@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest==8.4.2", "ruff==0.14.1"]
+dev = ["pytest==9.0.3", "ruff==0.14.1"]
 reports = ["matplotlib==3.10.7"]
 
 [tool.setuptools.packages.find]

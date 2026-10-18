@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-18T23:35:16.911072+00:00",
+  "transport": "HTTP to localhost:4566 with the emulated API Gateway Host header; routed through the API Lambda",
+  "lambdaStatusCode": 200,
+  "gatewayStatusCode": 200,
+  "health": {
+    "status": "ok",
+    "environment": "local",
+    "region": "eu-west-1",
+    "scenariosEnabled": true
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "uploadedJobId": "c341bfc7dbf9489496a7e4063b3b576d",
+  "status": "SUCCEEDED",
+  "outputProfiles": [
+    "720p",
+    "360p",
+    "thumbnail"
+  ],
+  "desktopViewport": "1440x1100",
+  "mobileViewport": "390x844",
+  "mobileOverflow": false,
+  "mediaPlayback": "passed",
+  "stableMediaSourceAcrossPolling": true,
+  "blobDownload": "passed",
+  "eventCount": 10,
+  "pageErrors": [],
+  "console": []
+}

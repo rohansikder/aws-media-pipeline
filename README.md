@@ -8,6 +8,14 @@ The local environment runs AWS-compatible APIs through [Floci 2.3.0](https://git
 
 ![Live operations console showing actual processing activity and job results](docs/results/console-desktop.png)
 
+## Video walkthrough
+
+[![Watch the AWS Media Pipeline walkthrough](docs/demo/poster.png)](docs/demo/aws-media-pipeline-demo.mp4)
+
+[Watch the 2:15 demonstration](docs/demo/aws-media-pipeline-demo.mp4) · [Captions](docs/demo/aws-media-pipeline-demo.srt)
+
+The walkthrough follows real local uploads, output playback, retry recovery, and corrupt-media diagnostics, with an animated architecture diagram and recorded validation results.
+
 ## What it does
 
 - Uploads video directly to S3 using a short-lived, create-only signed URL.

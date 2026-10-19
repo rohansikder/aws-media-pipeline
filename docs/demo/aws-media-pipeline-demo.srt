@@ -1,0 +1,139 @@
+1
+00:00:00,688 --> 00:00:03,912
+Here’s a video pipeline you can watch working. Upload a
+
+2
+00:00:03,925 --> 00:00:07,250
+clip, follow the job, and open the finished outputs in
+
+3
+00:00:07,262 --> 00:00:08,400
+one live console.
+
+4
+00:00:10,284 --> 00:00:13,834
+A short-lived signed link sends the original directly to S3.
+
+5
+00:00:14,246 --> 00:00:17,272
+The browser uploads the file without passing the video through
+
+6
+00:00:17,284 --> 00:00:18,196
+the API.
+
+7
+00:00:20,048 --> 00:00:24,885
+An object notification enters SQS. A Lambda dispatcher starts a
+
+8
+00:00:24,898 --> 00:00:26,635
+named Step Functions workflow,
+
+9
+00:00:27,285 --> 00:00:32,485
+so repeated notifications converge on the same execution. FFmpeg tasks
+
+10
+00:00:32,498 --> 00:00:36,085
+on ECS create two video renditions and a thumbnail, with
+
+11
+00:00:36,098 --> 00:00:40,598
+bounded parallelism. Outputs land in S3; state and events go
+
+12
+00:00:40,610 --> 00:00:41,810
+to DynamoDB.
+
+13
+00:00:43,684 --> 00:00:47,972
+Here’s the uploaded clip playing back. Switch between 360p and
+
+14
+00:00:47,984 --> 00:00:53,109
+720p, inspect the JPEG thumbnail, or download a result. The
+
+15
+00:00:53,122 --> 00:00:56,934
+React dashboard shows progress, timings, attempts, and queue depth from
+
+16
+00:00:56,946 --> 00:00:58,209
+actual retained data.
+
+17
+00:01:00,084 --> 00:01:04,222
+A controlled retry exercises a real worker failure. The first
+
+18
+00:01:04,234 --> 00:01:09,184
+360p attempt deliberately fails. The workflow launches another attempt,
+
+19
+00:01:09,359 --> 00:01:14,034
+which succeeds. Each attempt gets its own output key. DynamoDB
+
+20
+00:01:14,047 --> 00:01:17,372
+accepts the result only while that attempt is current and
+
+21
+00:01:17,384 --> 00:01:18,322
+the job is running.
+
+22
+00:01:20,192 --> 00:01:23,804
+Corrupt input takes a different path. The worker rejects it,
+
+23
+00:01:24,004 --> 00:01:27,892
+the workflow marks the job failed, and diagnostics stay available.
+
+24
+00:01:28,304 --> 00:01:31,329
+That makes a bad file visible instead of presenting it
+
+25
+00:01:31,354 --> 00:01:32,929
+as a successful conversion.
+
+26
+00:01:34,804 --> 00:01:38,866
+Validation includes fifty-eight passing unit tests and six end-to-end
+
+27
+00:01:38,879 --> 00:01:42,792
+scenarios. The recorded scenario run followed nine jobs:
+
+28
+00:01:43,416 --> 00:01:47,691
+eight successful conversions and one deliberately rejected corrupt upload.
+
+29
+00:01:48,079 --> 00:01:52,654
+Twenty-four output files were verified. Current dashboard totals include
+
+30
+00:01:52,666 --> 00:01:53,804
+additional jobs.
+
+31
+00:01:55,656 --> 00:01:58,956
+This demonstration runs locally on Floci two point three,
+
+32
+00:01:59,543 --> 00:02:04,743
+using AWS-compatible APIs and real Docker workers. Separate Terraform
+
+33
+00:02:04,756 --> 00:02:09,168
+configuration is supplied for AWS. It has not been deployed
+
+34
+00:02:09,180 --> 00:02:13,368
+there, so production behavior still needs validation in an AWS
+
+35
+00:02:13,380 --> 00:02:13,906
+account.

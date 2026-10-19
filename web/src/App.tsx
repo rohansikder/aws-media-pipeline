@@ -57,7 +57,7 @@ const scenarios = [
     id: "duplicate",
     name: "Duplicate event",
     description:
-      "Send the same source event twice. Check that one source produces one set of outputs.",
+      "Send the original event plus two duplicates. Check that one source produces one set of outputs.",
     icon: CheckCheck,
   },
   {
@@ -918,8 +918,9 @@ function ArchitectureDialog({
           <div>
             <h3>Durable event delivery</h3>
             <p>
-              S3 upload events reach SQS. A dispatcher starts orchestration and
-              routes unrecoverable delivery failures to a dead-letter queue.
+              S3 upload events reach SQS. A dispatcher starts orchestration. SQS
+              moves messages that exhaust dispatch retries to a dead-letter
+              queue using its redrive policy.
             </p>
           </div>
         </li>

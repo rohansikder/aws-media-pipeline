@@ -45,7 +45,7 @@ flowchart LR
 
 ## Run locally
 
-Prerequisites: Docker Engine with Compose and a working socket, Python 3.12, Node.js 22+, Terraform 1.10+, and `make`. Validated on Linux x86-64; the packaged Lambda bundle targets that architecture. Other hosts need compatible Docker emulation. Allow several minutes for the first Docker image and provider downloads. The stack binds its APIs to localhost; it does not deploy resources to your AWS account.
+Prerequisites: Docker Engine with Compose and a working socket, Python 3.12, Node.js 22.12+, Terraform 1.10+, and `make`. Validated on Linux x86-64; the packaged Lambda bundle targets that architecture. Other hosts need compatible Docker emulation. Allow several minutes for the first Docker image and provider downloads. The stack binds its APIs to localhost; it does not deploy resources to your AWS account.
 
 ```bash
 git clone https://github.com/rohansikder/aws-media-pipeline.git

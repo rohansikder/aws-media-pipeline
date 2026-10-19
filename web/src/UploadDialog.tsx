@@ -50,7 +50,7 @@ export function UploadDialog({
     );
     setNotice(
       accepted.length !== files.length
-        ? "Use MP4, MOV or WebM files, up to 100 MB each."
+        ? "Use MP4, MOV or WebM files, up to 100 MiB each."
         : "",
     );
     setItems((previous) => [
@@ -192,7 +192,7 @@ export function UploadDialog({
         <span>
           or <em>browse files</em> on your computer
         </span>
-        <small>MP4, MOV or WebM · up to 100 MB per file</small>
+        <small>MP4, MOV or WebM · up to 100 MiB per file</small>
       </button>
       {notice && (
         <div className="inline-warning" role="alert">
